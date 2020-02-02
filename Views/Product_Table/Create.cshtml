@@ -1,0 +1,140 @@
+﻿@model Product_manage_RAHUL_SATA.Models.Product_Table
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-filestyle.min.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        .inputstl {
+            padding: 9px;
+            border: solid 1px #173955;
+            outline: 0;
+            background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #AACCE8), to(#FFFFFF));
+            background: -moz-linear-gradient(top, #FFFFFF, #AACCE8 1px, #FFFFFF 25px);
+            box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+            -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+            -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <div class="container">
+        <h1>ADD PRODUCT</h1>
+        @using (Html.BeginForm("Create", "Product_Table", null, FormMethod.Post,
+                              new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label for="Name" class="col-sm-2 control-label">Product_Name:</label>
+                <div class="col-sm-4">
+                    <input type="text" maxlength="50" class="form-control inputstl" id="name1" placeholder="Enter Product Name" name="Name" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Category" class="col-sm-2 control-label">Category:</label>
+                <div class="col-sm-2">
+                    <select class="form-control inputstl" id="Category" name="Category">
+                        <option>A</option>
+                        <option>B</option>
+                        <option>C</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Price" class="col-sm-2 control-label">Price:</label>
+                <div class="col-sm-5">
+                    <input type="number" class="form-control inputstl" id="Price" placeholder="Enter Price of a Product" name="Price" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Quantity" class="col-sm-2 control-label">Quantity:</label>
+                <div class="col-sm-3">
+                    <input type="number" class="form-control inputstl" id="Quantity" placeholder="Enter Quantity of Product" name="Quantity" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Short_description" class="col-sm-2 control-label">Short Description:</label>
+                <div class="col-sm-5">
+                    <input type="text" maxlength="40" class="form-control inputstl" id="Short_description" placeholder="Short Description" name="Short_description" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Long_description" maxlength="500" class="col-sm-2 control-label">Long Description:</label>
+                <div class="col-sm-5">
+                    <textarea class="form-control inputstl" id="Long_description" placeholder="Long Description" name="Long_description"></textarea>
+                    @*<input type="text" class="form-control inputstl" id="Long_description" placeholder="Long Description" name="Long_description">*@
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Small_img" class="col-sm-2 control-label">Select a Small_Image:</label>
+
+                <div class="col-sm-5">
+                    <img src="~/Project_Imgs/upload.png" id="output" width="280" height="200" />
+                    <input type="file" class="inputstl" id="Small_photo" name="Small_img" onchange="filesmallChange(event)" accept=".jpg,.png,.jpeg,.gif" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Large_img" class="col-sm-2 control-label">Select a Large_Image:</label>
+                <div class="col-sm-5">
+                    <img src="~/Project_Imgs/upload.png" id="output1" width="280" height="200" />
+                    <input type="file" class="inputstl" id="Large_photo" accept=".jpg,.png,.jpeg,.gif" onchange="filelargeChange(event)" name="Large_img">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-4">
+                    <button type="submit" class="btn btn-lg btn-block btn-primary">Add</button>
+                </div>
+            </div>
+        }
+        @using (Html.BeginForm("Index", "Product_Table", null, FormMethod.Post,
+                              new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+        {
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-4">
+                    <button type="submit" class="btn btn-lg btn-block btn-primary">Cancel</button>
+                </div>
+            </div>
+        }
+    </div>
+    @*<script>
+            $('#selphoto').filestyle({
+                buttonName: 'btn-primary',
+                buttonText: ' Upload an Image',
+                iconName: 'glyphicon glyphicon-upload'
+            });
+        </script>*@
+      <script>
+          var filesmallChange = function (event) {
+            console.log("dssd");
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+          };
+          var filelargeChange = function (event) {
+            console.log("dssd");
+            var output1 = document.getElementById('output1');
+            output1.src = URL.createObjectURL(event.target.files[0]);
+           };
+      </script>
+</body>
+</html>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

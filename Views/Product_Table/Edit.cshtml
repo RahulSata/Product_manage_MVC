@@ -1,0 +1,142 @@
+﻿@model Product_manage_RAHUL_SATA.Models.Product_Table
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap-filestyle.min.js"></script>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <style>
+            .inputstl {
+                padding: 9px;
+                border: solid 1px #173955;
+                outline: 0;
+                background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #AACCE8), to(#FFFFFF));
+                background: -moz-linear-gradient(top, #FFFFFF, #AACCE8 1px, #FFFFFF 25px);
+                box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+                -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+                -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+            }
+        </style>
+        <script>
+            $(document).ready(function () {
+                var smalll = "@Model.Small_img";
+                smalll=$.trim(smalll);
+                var count = smalll.length;
+                var extention = smalll.substring(smalll.indexOf('.')+1, count);
+                smalll = smalll.substring(13, (smalll.indexOf('.')) - 12);
+                smalll = smalll +'.'+ extention;
+            });
+        </script>
+    </head>
+
+<body>
+    <div class="container">
+        <h1>MODIFY</h1>
+        <div class="form-horizontal">
+        @using (Html.BeginForm("Edit","Product_Table",FormMethod.Post,new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label for="Name" class="col-sm-2 control-label">Product_Name:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control inputstl" id="name1" value="@Model.Name" name="Name" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Category" class="col-sm-2 control-label">Category:</label>
+                <div class="col-sm-2">
+                    <select class="form-control inputstl" id="Category" name="Category">
+                        <option value="@Model.Category" selected>@Model.Category</option>
+                        <option>A</option>
+                        <option>B</option>
+                        <option>C</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Price" class="col-sm-2 control-label">Price:</label>
+                <div class="col-sm-5">
+                    <input type="number" class="form-control inputstl" id="Price" value="@Model.Price" name="Price" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Quantity" class="col-sm-2 control-label">Quantity:</label>
+                <div class="col-sm-3">
+                    <input type="number" class="form-control inputstl" id="Quantity" value="@Model.Quantity"  name="Quantity" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Short_description" class="col-sm-2 control-label" >Short Description:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control inputstl" id="Short_description" value="@Model.Short_description" name="Short_description" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Long_description" class="col-sm-2 control-label">Long Description:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control inputstl" id="Long_description" value="@Model.Long_description" name="Long_description">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Small_img" class="col-sm-2 control-label">Select a Small_Image:</label>
+                <div class="col-sm-5">
+                    <input type="hidden" name="Small_path" value="@Model.Small_img" />
+                    <img src="@Url.Content(@Model.Small_img)" id="output"  width="280" height="180"><br><br>
+                    <input type="file" class="inputstl" id="Small_photo" onchange="filesmallChange(event)" accept=".jpg,.png,.jpeg,.gif" name="Small_img">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Large_img" class="col-sm-2 control-label">Select a Large_Image:</label>
+                <div class="col-sm-5">
+                    <input type="hidden" name="Large_path" value="@Model.Large_img" />
+                    <img src="@Url.Content(@Model.Large_img)" id="output1" width="280" height="180"><br><br>
+                    <input type="file" class="inputstl"  accept=".jpg,.png,.jpeg,.gif" onchange="filelargeChange(event)" id="Large_photo" name="Large_img" >
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-4">
+                    <button type="submit" class="btn btn-lg btn-block btn-primary">Edit</button>
+                </div>
+            </div>
+        }
+        @using (Html.BeginForm("Index", "Product_Table", null, FormMethod.Post,
+                              new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+        {
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-4">
+                    <button type="submit" class="btn btn-lg btn-block btn-primary">Cancel</button>
+                </div>
+            </div>
+        }
+            </div>
+</div>
+    <script>
+        var filesmallChange = function (event) {
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+        };
+        var filelargeChange = function (event) {
+            var output1 = document.getElementById('output1');
+            output1.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
+</body>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+

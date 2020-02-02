@@ -1,0 +1,141 @@
+﻿@model IEnumerable<Product_manage_RAHUL_SATA.Models.Product_Table>
+
+@{
+    ViewBag.Title = "Index";
+}
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+
+        <style>
+            thead input {
+                width: 100px;
+                padding: 3px;
+                box-sizing: border-box;
+            }
+        </style>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#mytable thead tr').clone(true).appendTo('#mytable thead');
+                $('#mytable thead tr:eq(1) th').each(function (i) {
+                    var title = $(this).text();
+                    title = $.trim(title);
+                    if (title == 'Name' || title == 'Category' || title == 'Price') {
+                        $(this).html('<input type="text" placeholder="Search" />');
+                    }
+                    else {
+                        $(this).html('<p></p>');
+                    }
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                });
+
+                var table = $('#mytable').DataTable({
+                    "scrollY": 400,
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    "pagingType": "full_numbers",
+                    columnDefs: [{
+                        orderable: false,
+                        targets: "no-sort"
+                    }],
+                    "lengthMenu": [
+                        [5, 2, 10, 50, -1],
+                        [5, 2, 10, 50, "All"]
+                    ]
+                });
+                $('#checkBoxAll').click(function () {  
+                if ($(this).is(":checked")) {  
+                    $(".chkCheckBoxId").prop("checked", true)  
+                }  
+                else {  
+                    $(".chkCheckBoxId").prop("checked", false)  
+                }  
+            });
+            });
+        </script>
+    </head>
+
+    <body>
+        <br><br>
+        @using (Html.BeginForm("Delete_All", "Product_Table", FormMethod.Post))
+        {
+            <button type="submit" value="Delete" class="btn btn-sm btn-danger rounded-0" onclick="return confirm('Are you sure?')"><i class="fa fa-trash-o"></i> Delete</button><br><br><br>
+            <table id="mytable" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="no-sort"><input type="checkbox" id="checkBoxAll" class="custom-checkbox" /></th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Category)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Quantity)
+                        </th>
+                        <th class="no-sort">
+                            @Html.DisplayNameFor(model => model.Short_description)
+                        </th>
+                        <th class="no-sort">
+                            @Html.DisplayNameFor(model => model.Small_img)
+                        </th>
+                        <th class="no-sort"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td><input type="checkbox" name="ID" value="@item.Id" class="custom-checkbox chkCheckBoxId" /></td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Short_description)
+                        </td>
+                        <td>
+                            <img src="@Url.Content(item.Small_img)" width="70" height="70">
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit", "Product_table", new { id = item.Id })" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                            <a href="@Url.Action("Details", "Product_table", new { id = item.Id })" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                            </a>
+                            <a href="@Url.Action("Delete", "Product_table", new { id = item.Id })" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-trash"></span> Trash
+                            </a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        </body>

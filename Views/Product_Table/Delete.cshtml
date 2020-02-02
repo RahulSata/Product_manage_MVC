@@ -1,0 +1,56 @@
+﻿@model Product_manage_RAHUL_SATA.Models.Product_Table
+
+@{
+    ViewBag.Title = "Delete";
+}
+<head>
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("form").submit(function (e) {
+                
+                setTimeout(function () {
+                    alert("Deleted");
+                },100);
+            });
+        });
+       
+    </script>
+</head>
+<br>
+<br>
+<div class="container-fluid well span6" style="width:100%;">
+    <h3>Are You sure to delete this item?</h3>
+    <div class="row-fluid">
+        <div class="span2" style="margin-top:80px;">
+            <img src="@Url.Content(@Model.Small_img)" class="img-circle">
+        </div>
+
+        <div class="span4">
+            <h1 style="word-wrap:break-word;">@Model.Name</h1><br>
+            <h4 style="word-wrap:break-word;">Category  :  @Model.Category </h4>
+            <h5 style="word-wrap:break-word;">Price   :  @Model.Price</h5>
+            <h5 style="word-wrap:break-word;">Quantity   :  @Model.Quantity</h5>
+            <h5 style="word-wrap:break-word;">Short Description  :   @Model.Short_description</h5>
+            <h5 style="word-wrap:break-word;">Long Description   :   @Model.Long_description</h5>
+            <br><br>
+             @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div style="clear:both">
+                    <input type="submit" value="Delete" class="btn btn-default" />
+                    <button class="btn btn-default" onclick="location.href='@Url.Action("Index", "Product_Table")';return false;">Cancel</button>
+                </div>
+            }
+
+        </div>
+        <div class="span4">
+            <img src="@Url.Content(@Model.Large_img)" style="height:250px;border:solid" />
+            <h3 style="text-align:center">Large Image</h3>
+        </div>
+    </div>
+</div>
